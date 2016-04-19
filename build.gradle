@@ -4,8 +4,10 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
@@ -13,9 +15,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 jar {
-    baseName = 'ouathrevoke'
+    baseName = 'SpringSecurityTokenRevoke'
     version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
@@ -36,4 +40,35 @@ dependencies {
     testCompile('org.spockframework:spock-spring:1.0-groovy-2.4')
     testCompile('org.hamcrest:java-hamcrest:2.0.0.0')
     testCompile('com.jayway.restassured:rest-assured:2.9.0')
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['MyPublication']
+
+    pkg {
+        repo = 'maven'
+        name = 'SpringSecurityOAuthTokenRevoke'
+        userOrg = 'lisik-it'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Lisik-IT/SpringSecurityOAuthTokenRevoke.git'
+    }
+
+    version {
+        name = '0.1-Final'
+        released  = new Date()
+        vcsTag = '0.1'
+    }
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'it.lisik.springutils'
+            artifactId 'SpringSecurityTokenRevoke'
+            version '0.1'
+        }
+    }
 }
