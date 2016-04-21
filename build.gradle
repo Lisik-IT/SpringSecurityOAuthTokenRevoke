@@ -20,7 +20,7 @@ apply plugin: 'maven-publish'
 
 jar {
     baseName = 'SpringSecurityTokenRevoke'
-    version = '0.2-FINAL'
+    version = '0.3-FINAL'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -53,12 +53,11 @@ bintray {
         userOrg = 'lisik-it'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/Lisik-IT/SpringSecurityOAuthTokenRevoke.git'
-    }
 
-    version {
-        name = '0.2-Final'
-        released  = new Date()
-        vcsTag = '0.2'
+        version {
+            name = '0.3-Final'
+            vcsTag = '0.3'
+        }
     }
 }
 
@@ -68,7 +67,7 @@ publishing {
             from components.java
             groupId 'it.lisik.springutils'
             artifactId 'SpringSecurityTokenRevoke'
-            version '0.2'
+            version '0.3'
         }
     }
 }
