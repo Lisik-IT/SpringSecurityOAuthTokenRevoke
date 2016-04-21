@@ -43,12 +43,18 @@ class TokenRevocationITest extends Specification {
     }
 
     def "Test Revocation of Refresh Token"() {
+        def accessToken = prepareToken('access_token')
+
+
         given: "Client credentials"
         def specification = RestAssured.given().authentication().preemptive().basic("example", "example")
 
         and: "Valid Refresh Token"
         def refreshToken = prepareToken('refresh_token')
         specification.formParameter("token", refreshToken)
+
+        and: "token type hint is set to refresh_token"
+        specification.formParameter("token_type_hint", 'refresh_token')
 
         when: "revoke endpoint is invoked"
         def response = specification.post("/oauth/revoke")
@@ -57,7 +63,7 @@ class TokenRevocationITest extends Specification {
         response.statusCode == 200
 
         and: "Token is no longer valid"
-        tokenStore.readRefreshToken(refreshToken) == null
+        tokenStore.readAccessToken(accessToken) == null
     }
 
 
